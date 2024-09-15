@@ -1,3 +1,5 @@
+
+
 const modifyTitle = (todo, value) => {
     todo.title = value;
 }
@@ -16,4 +18,11 @@ const modifyNotes = (todo, value) => {
 const modifyIsComplete = (todo, value) => {
     todo.isComplete = value;
 }
-export { modifyTitle, modifyDesc, modifyDueDate, modifyPriority, modifyNotes, modifyIsComplete }
+export {
+    modifyTitle,
+    modifyDesc,
+    modifyDueDate,
+    modifyPriority,
+    modifyNotes,
+    modifyIsComplete
+}
