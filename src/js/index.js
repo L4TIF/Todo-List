@@ -1,8 +1,13 @@
+// Import our custom CSS
+import '../css/styles.css'
 
 import { createProject } from "./createProject";
 import { getAllData, setLocalData } from "./LocalStorage";
 import { modifyTitle } from "./modifyTodo";
-import "./styles.css";
+
+
+
+
 
 const defaultTask = createProject("My Task");
 defaultTask.createTodo("india", "lorem2", new Date(), "High", "none", false);
