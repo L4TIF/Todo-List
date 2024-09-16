@@ -1,20 +1,19 @@
-const getAllData = () => {
+const getAllProjects = () => {
     let values = [];
     let keys = Object.keys(localStorage);
     let i = keys.length;
 
     while (i--)
         values.push({
-            projectName: keys[i],
-            todos: JSON.parse(localStorage.getItem(keys[i])),
+            data: JSON.parse(localStorage.getItem(keys[i])),
         })
-    return values
+    return values[0].data //returns local storage array/object/data(array)
 }
 
-const setLocalData = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value)); 
+const setLocalData = (value) => {
+    localStorage.setItem('All_projects', JSON.stringify(value));
 }
 
 
 
-export { getAllData, setLocalData } 
+export { getAllProjects, setLocalData } 
