@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,31 +24,31 @@
     />
     <title>Task List</title>
   </head>
-  <body class="bg-dark text-bg-dark vh-100">
+  <body class="vh-100">
     <header class="" style="height: 8%">
       <nav
-        class="navbar navbar-dark navbar-expand-lg border-bottom border-light border-opacity-25 h-100"
+        class="navbar navbar-expand-lg border-bottom  border-opacity-50 h-100"
       >
         <div class="container-fluid justify-content-start gap-3">
           <div class="navbar-nav">
             <button
-              class="navbar-toggler border-0"
+              class="navbar-toggler border-0 "
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#navbar"
               aria-controls="navbar"
-            >
+            > 
               <span class="navbar-toggler-icon"></span>
             </button>
           </div>
-          <div class="navbar-brand text-white fs-4">Todo App</div>
+          <div class="navbar-brand text-black fs-4">Todo App</div>
         </div>
       </nav>
     </header>
 
     <!-- side bar mobile -->
     <div
-      class="offcanvas offcanvas-start text-bg-dark w-75"
+      class="offcanvas offcanvas-start w-75"
       tabindex="-1"
       id="navbar"
       aria-labelledby="navbarLabel"
@@ -97,41 +97,41 @@
           </div>
         </div>
 
-        <div
-          class="lists fs-3 mb-2"
+        <ul
+          class="lists fs-3 mb-2 d-flex flex-column ps-0"
           data-bs-dismiss="offcanvas"
           data-bs-target="#navbar"
         >
-          <div class="task" id="default-task">My Tasks</div>
-          <div class="task" id="new-task">My Tasks</div>
-        </div>
+          <li class="task btn btn-light active" id="default-task">My Tasks</li>
+          <li class="task btn btn-light" id="new-task">My Tasks</li>
+        </ul>
       </div>
     </div>
 
     <!-- main -->
-    <div class="container-fluid" style="height: 92%">
+    <div class="container-fluid bg-light" style="height: 92%">
       <div class="row h-100">
+        <!-- sidebar -->
         <div
-          class="col-2 border-end border-light border-opacity-25 d-none d-lg-block"
+          class="col-2 border-end border-opacity-50 d-none d-lg-block"
           id="sidebar"
         >
           <!-- side bar with all tasks list -->
-          <div class="mt-4">
+          <div class="mt-4 w-100">
             <!-- side bar heading for only lg above -->
             <div
-              class="sidebar-header d-flex justify-content-between align-items-center text-secondary"
+              class="sidebar-header d-flex justify-content-between align-items-center"
             >
-              <h4 class="mb-0 text-secondary tasklist-name">All Tasks</h4>
+              <h4 class="mb-0 tasklist-name">All Tasks</h4>
               <!-- creating new list button -->
               <i
-                class="bi bi-plus-square fs-3"
+                class="bi bi-plus-square fs-3 p-0 btn text-primary"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapse"
-                aria-expanded="false"
-                aria-controls="collapse"
               >
               </i>
+            
             </div>
 
             <div class="collapse" id="collapse">
@@ -153,15 +153,15 @@
               </div>
             </div>
             <!-- side bar list -->
-            <div class="lists fs-5 mb-2">
-              <div class="task" id="default-task">My Tasks</div>
-              <div class="task" id="new-task">My Tasks</div>
-            </div>
+            <ul class="lists  d-flex flex-column ps-0">
+              <li class="task btn btn-light active" id="default-task">My Tasks</li>
+              <li class="task btn btn-light" id="new-task">My Tasks</li>
+            </ul>
           </div>
         </div>
         <!-- todo container -->
         <div class="col" id="todos">
-          <div class="todo-container">
+          <div class="todo-container ">
             <!-- todo container heading -->
             <div
               class="task-list-heading p-3 d-flex justify-content-between align-items-center"
@@ -169,14 +169,14 @@
               <h2 class="tasklist-name">My Tasks</h2>
 
               <i
-                class="bi bi-three-dots-vertical dropdown fs-4 btn btn-dark rounded-circle border-0"
+                class="bi bi-three-dots-vertical dropdown fs-4 btn btn-light rounded-circle border-0"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               ></i>
 
               <ul
-                class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start dropdown-menu-dark"
+                class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start"
               >
                 <li>
                   <button class="dropdown-item" type="button">
@@ -192,13 +192,13 @@
             </div>
             <!-- add task container -->
             <div
-              class="add-task-container w-75 mx-auto"
+              class="add-task-container w-100  d-flex flex-column align-items-center"
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#add-todo"
             >
               <div
-                class="add-task d-flex gap-2 align-items-center justify-content-center rounded"
+                class="add-task d-flex gap-2 align-items-center justify-content-center rounded w-75 btn btn-light  text-primary"
                 style="cursor: pointer"
               >
                 <i class="bi bi-plus-circle fs-3"></i>
@@ -216,8 +216,8 @@
               aria-hidden="true"
             >
               <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content text-bg-dark">
-                  <div class="modal-header text-white">
+                <div class="modal-content">
+                  <div class="modal-header">
                     <h1 class="modal-title fs-5" id="add-todoLabel">
                       Add task
                     </h1>
@@ -230,6 +230,37 @@
                   </div>
                   <div class="modal-body">
                     <!-- modal body form -->
+                    <!-- title -->
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="floatingTitle" placeholder="title name" required>
+                      <label for="floatingTitle">Enter task name</label>
+                    </div>
+                    <!-- desc -->
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="description" id="floatingdesc"></textarea>
+                      <label for="floatingdesc">Description</label>
+                    </div>
+                    <!-- due date -->
+                    
+                    <label for="due-date ">Due Date </label>
+                    <input type="date" class="form-control mb-3" id="due-date">
+
+
+                    <!-- priority -->
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="floatingPriority">
+                        <option selected>None</option>
+                        <option value="1" class="text-success">Low</option>
+                        <option value="2" class="text-warning">Medium</option>
+                        <option value="3" class="text-danger">High</option>
+                      </select>
+                      <label for="floatingPriority">Set priority of task</label>
+                    </div>
+                    <!-- notes -->
+                    <div class="form-floating mb-3">
+                      <textarea class="form-control" placeholder="Leave a comment here" id="floatingNotes" style="height: 100px"></textarea>
+                      <label for="floatingNotes">Notes</label>
+                    </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary">
@@ -241,28 +272,31 @@
             </div>
 
             <!-- todo container body -->
-            <div class="todo mx-3">
+             <!-- todo lists -->
+              <ul class="todo-lists container-lg mx-auto">
+            <li class="todo btn btn-outline-dark w-100 mb-3"  type="button" data-bs-toggle="collapse" data-bs-target="#todo">
+              <!-- button -->
               <div
-                class="new-todo d-flex"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#todo"
-                aria-expanded="false"
-                aria-controls="todo"
-              >
-                <div class="todo-status-icon"></div>
-                <div class="todo-title"></div>
-                <div class="todo-due-date"></div>
-                <div class="todo-priority"></div>
-                <div class="todo-edit"></div>
+                class="new-todo d-flex justify-content-between">           
+             
+                <div class="todo-status-icon"><i class="bi bi-circle"></i></div>
+                <div class="todo-details w-100 d-flex justify-content-between mx-lg-5 mx-3">
+                <div class="todo-title">title</div>
+                <i class="bi bi-calendar-event todo-due-date">18-09-2024</i>
+                <div class="todo-priority"><i class="bi bi-hourglass-split"></i><span class="priority">priority</span></div>
+              </div>
+                <i class="bi bi-pencil-square todo-edit"></i>
               </div>
               <div class="collapse" id="todo">
                 <div class="todo-body">
-                  <div class="todo-desc"></div>
-                  <div class="todo-notes"></div>
+                  <div class="todo-desc">desc</div>
+                  <div class="todo-notes">notes</div>
                 </div>
               </div>
-            </div>
+            </li>
+           
+          </ul>
+            <!-- todo list container ends here -->
           </div>
         </div>
       </div>
