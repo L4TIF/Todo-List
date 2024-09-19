@@ -14,11 +14,16 @@ const defaultTask = createProject("My Task");
 defaultTask.createTodo("india", "lorem2sdds", new Date(), "High", "none", false);
 defaultTask.createTodo("india223", "lorem2", new Date(), "High", "none", false);
 
+const NewTask = createProject("My Task2");
+NewTask.createTodo("india", "lorem2sdds", new Date(), "High", "none", false);
+NewTask.createTodo("india223", "lorem2", new Date(), "High", "none", false);
+
 
 
 modifyTitle(defaultTask.getTodosByIndex(0), "mehico");
 
 setLocalData(defaultTask.getProjectName, defaultTask.getAllTodos());
+setLocalData(NewTask.getProjectName, NewTask.getAllTodos());
 
 
 // console.log(defaultTask.getAllTodos())
