@@ -2,6 +2,7 @@
 import '../css/styles.css'
 
 import { createProject } from "./createProject";
+import { loopData } from './destructureData';
 import { getAllProjects, setLocalData } from "./LocalStorage";
 import { modifyTitle } from "./modifyTodo";
 
@@ -11,29 +12,20 @@ const projectsArray = [];
 
 // some projects
 const defaultTask = createProject("My Task");
-defaultTask.createTodo("india", "lorem2", new Date(), "High", "none", false);
+defaultTask.createTodo("india", "lorem2sdds", new Date(), "High", "none", false);
 defaultTask.createTodo("india223", "lorem2", new Date(), "High", "none", false);
 
-const newTask = createProject("newTask");
-newTask.createTodo("go college", "", new Date(), "low", "", false);
+const NewTask = createProject("My Task2");
+NewTask.createTodo("india", "lorem2sdds", new Date(), "High", "none", false);
+NewTask.createTodo("india223", "lorem2", new Date(), "High", "none", false);
+
 
 
 // appending all projects
-projectsArray.push(defaultTask.getAllTodos(), newTask.getAllTodos());
-
-
-
-modifyTitle(defaultTask.getTodosByIndex(0),"Australia");
-
+projectsArray.push(defaultTask.getAllTodos(), NewTask.getAllTodos());
 
 setLocalData(projectsArray);
 
-const allProjects = getAllProjects();
-allProjects.forEach(element => {
-    console.log(element)
-});
-
-console.log(getAllProjects());
-
-
-
+console.log(defaultTask.getAllTodos())
+console.log(getAllProjects()); 
+loopData();
