@@ -1,5 +1,5 @@
 import { getAllProjects } from "./LocalStorage";
-import { domHandler, renderData } from "./renderData";
+import {  renderData } from "./renderData";
 
 
 const listData = (objOfData) => {
@@ -19,22 +19,5 @@ const loopData = () => {
         data.forEach(dataObj => listData(dataObj))
     }
 }
-domHandler();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export { loopData };

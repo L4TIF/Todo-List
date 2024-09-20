@@ -24,8 +24,10 @@ NewTask.createTodo("india223", "lorem2", new Date(), "High", "none", false);
 // appending all projects
 projectsArray.push(defaultTask.getAllTodos(), NewTask.getAllTodos());
 
-setLocalData(projectsArray);
+setLocalData(projectsArray); 
 
-console.log(defaultTask.getAllTodos())
-console.log(getAllProjects()); 
+console.log(getAllProjects())
+setLocalData(getAllProjects())
+
+
 loopData();

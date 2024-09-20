@@ -1,13 +1,15 @@
-const domHandler = () => {
+const appendInDom = () => {
     let projectNameContainer;
     window.innerWidth < 960 ? projectNameContainer = document.querySelector(".lists") : projectNameContainer = document.querySelector(".lists-lg");
     let todoContainer = document.querySelector(".todo-lists");
 
-
-
     // methods
+
+    // append project name
     const renderProjectName = (projectname) => projectNameContainer.innerHTML += `<li class="task btn btn-light" id="new-task">${projectname}</li>`;
 
+
+    // append todo
     const renderTodo = (title, desc, dueDate, priority, notes) => {
 
         todoContainer.innerHTML += `  <li class="todo btn btn-outline-dark w-100 mb-3"  type="button" data-bs-toggle="collapse" data-bs-target="#todo">
@@ -39,36 +41,20 @@ const domHandler = () => {
                 </div>
               </div>
             </li>`
-
-
-
-
-
     }
 
     return { renderProjectName, renderTodo }
 };
 
-
-
-
-
-
-
-
-
-
-
-
 const renderData = (projectName, todoObj) => {
-    const Dom = domHandler();
+    const Dom = appendInDom(); //initialize append method
 
     Dom.renderProjectName(projectName); //set project name
     todoObj.forEach(e => {
-        Dom.renderTodo(e.title,e.desc,e.dueDate,e.priority,e.notes)
+        Dom.renderTodo(e.title,e.desc,e.dueDate,e.priority,e.notes) //set todos
     }); 
 }
 
 
 
-export { renderData, domHandler };
+export { renderData, appendInDom };
