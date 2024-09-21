@@ -2,7 +2,7 @@
 import '../css/styles.css'
 
 import { createProject } from "./createProject";
-import { loopData } from './destructureData';
+import { loopData, loopDataTodo } from './destructureData';
 import { getProjectName, setNewProject } from './handleInput';
 import { getAllProjects, setLocalData, updateLocalData } from "./LocalStorage";
 import { modifyTitle } from "./modifyTodo";
@@ -39,7 +39,7 @@ if (localStorage.length < 1) {
 
 console.log(JSON.parse(localStorage.getItem("All_Projects")))
 loopData();
-
+loopDataTodo()
 setNewProject()
 
 
