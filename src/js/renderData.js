@@ -1,18 +1,26 @@
+let projectNameContainer;
+window.innerWidth < 960 ? projectNameContainer = document.querySelector(".lists") : projectNameContainer = document.querySelector(".lists-lg");
+let todoContainer = document.querySelector(".todo-lists");
 const appendInDom = () => {
-    let projectNameContainer;
-    window.innerWidth < 960 ? projectNameContainer = document.querySelector(".lists") : projectNameContainer = document.querySelector(".lists-lg");
-    let todoContainer = document.querySelector(".todo-lists");
 
-    // methods
+  // methods
 
-    // append project name
-    const renderProjectName = (projectname) => projectNameContainer.innerHTML += `<li class="task btn btn-light" id="new-task">${projectname}</li>`;
+  // append project name
+  const renderProjectName = (projectname) => {
+    // projectNameContainer.innerHTML += `<li class="task btn btn-light" data-project="${projectname.split(" ").join("")}" >${projectname}</li>`
+    const project = document.createElement("li");
+    project.classList.add(`task`, `btn`, `btn-light`);
+    project.setAttribute("name", projectname.split(" ").join(""));
+    project.textContent = projectname;
+    projectNameContainer.appendChild(project);
+    projectNameContainer.firstChild.classList.add("active");
+  };
 
 
-    // append todo
-    const renderTodo = (title, desc, dueDate, priority, notes) => {
+  // append todo
+  const renderTodo = (projectname, title, desc, dueDate, priority, notes) => {
 
-        todoContainer.innerHTML += `  <li class="todo btn btn-outline-dark w-100 mb-3"  type="button" data-bs-toggle="collapse" data-bs-target="#todo">
+    todoContainer.innerHTML += `  <li class="todo btn btn-outline-dark w-100 mb-3 " data-project="${projectname.split(" ").join("")}"  type="button" data-bs-toggle="collapse" data-bs-target="#todo">
               <!-- button -->
               <div
                 class="new-todo d-flex justify-content-between">           
@@ -41,20 +49,65 @@ const appendInDom = () => {
                 </div>
               </div>
             </li>`
-    }
+  }
+  const clearHTMLContainers = () => {   //empty containers
+    projectNameContainer.replaceChildren();
+    todoContainer.replaceChildren();
+    console.log("all containers refreshed")
+  }
 
-    return { renderProjectName, renderTodo }
+
+
+  const getActiveTask = () => {
+    for (const element of projectNameContainer.children) {
+      if (element.classList.contains("active"))
+        return element
+    }
+  }
+
+
+
+
+  return { renderProjectName, renderTodo, clearHTMLContainers,getActiveTask }
 };
 
-const renderData = (projectName, todoObj) => {
-    const Dom = appendInDom(); //initialize append method
+const renderData = (projectName, todoObj = []) => {
+  const Dom = appendInDom(); //initialize append method
 
+
+  const renderTaskList = (projectName) => {
     Dom.renderProjectName(projectName); //set project name
+  }
+
+
+
+  const renderTodos = (projectName, todoObj) => {
+
     todoObj.forEach(e => {
-        Dom.renderTodo(e.title,e.desc,e.dueDate,e.priority,e.notes) //set todos
-    }); 
+      Dom.renderTodo(projectName, e.title, e.desc, e.dueDate, e.priority, e.notes) //set todos
+    });
+  }
+
+
+
+
+
+
+  return { renderTaskList, renderTodos }
 }
 
 
 
-export { renderData, appendInDom };
+
+
+
+
+
+
+
+
+
+
+
+
+export { renderData, appendInDom, };
