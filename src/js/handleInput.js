@@ -94,7 +94,7 @@ const handleDelete = () => {
     if (matchedProject) {
         const updatedData = data.filter(obj => obj !== matchedProject);
         setLocalData(updatedData);
-        loopData();
+        loopData(false);
         loopDataTodo();
     }
 }
