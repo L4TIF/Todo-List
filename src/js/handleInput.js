@@ -148,4 +148,72 @@ document.querySelector("#rename-list").addEventListener("click", () => {
 });
 
 
+const formData = document.querySelector("#get-form-data");
+formData.addEventListener("submit", () => {
+    event.preventDefault();
+    const title = formData.querySelector("#floatingTitle").value;
+    const desc = formData.querySelector("#floatingdesc").value;
+    const date = formData.querySelector("#due-date").value;
+    const priority = formData.querySelector("#floatingPriority").value;
+    const notes = formData.querySelector("#floatingNotes").value;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    console.log(title, desc, date, priority, notes);
+    console.log(appendInDom().getActiveTask())
+    formData.reset() //reset form after submit
+    const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
+    modal.hide();
+})
+
+
+
+const getMatchedProject = () => {
+    const domAppender = appendInDom();    // Get the DOM appender instance
+    const activeTask = domAppender.getActiveTask();  // Get the active task (project)
+
+    // Get the active task's name before renaming
+    const activeTaskName = activeTask.getAttribute("name").replace(/\s+/g, "");
+
+
+    const data = getAllProjects() ?? [];
+
+    const matchedProject = data.find(dataObj => {
+        const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
+        return formattedProjectName === activeTaskName;
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export { setNewProject };

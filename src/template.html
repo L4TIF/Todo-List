@@ -302,7 +302,6 @@
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#add-todo"
-           
           >
             <div
               class="add-task d-flex gap-2 align-items-center justify-content-center rounded w-75 btn btn-light text-primary"
@@ -324,66 +323,79 @@
           >
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="add-todoLabel">Add task</h1>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <!-- modal body form -->
-                  <!-- title -->
-                  <div class="form-floating mb-3">
+                <form action="#" id="get-form-data">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-todoLabel">
+                      Add task
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- modal body form -->
+                    <!-- title -->
+
+                    <div class="form-floating mb-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="floatingTitle"
+                        placeholder="title name"
+                        required
+                      />
+                      <label for="floatingTitle">Enter task name</label>
+                    </div>
+                    <!-- desc -->
+                    <div class="form-floating">
+                      <textarea
+                        class="form-control"
+                        placeholder="description"
+                        id="floatingdesc"
+                      ></textarea>
+                      <label for="floatingdesc">Description</label>
+                    </div>
+                    <!-- due date -->
+
+                    <label for="due-date ">Due Date </label>
                     <input
-                      type="text"
-                      class="form-control"
-                      id="floatingTitle"
-                      placeholder="title name"
-                      required
+                      type="date"
+                      class="form-control mb-3"
+                      id="due-date"
                     />
-                    <label for="floatingTitle">Enter task name</label>
-                  </div>
-                  <!-- desc -->
-                  <div class="form-floating">
-                    <textarea
-                      class="form-control"
-                      placeholder="description"
-                      id="floatingdesc"
-                    ></textarea>
-                    <label for="floatingdesc">Description</label>
-                  </div>
-                  <!-- due date -->
 
-                  <label for="due-date ">Due Date </label>
-                  <input type="date" class="form-control mb-3" id="due-date" />
-
-                  <!-- priority -->
-                  <div class="form-floating mb-3">
-                    <select class="form-select" id="floatingPriority">
-                      <option selected>None</option>
-                      <option value="1" class="text-success">Low</option>
-                      <option value="2" class="text-warning">Medium</option>
-                      <option value="3" class="text-danger">High</option>
-                    </select>
-                    <label for="floatingPriority">Set priority of task</label>
+                    <!-- priority -->
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="floatingPriority">
+                        <option selected>None</option>
+                        <option value="Low" class="text-success">Low</option>
+                        <option value="Medium" class="text-warning">
+                          Medium
+                        </option>
+                        <option value="High" class="text-danger">High</option>
+                      </select>
+                      <label for="floatingPriority">Set priority of task</label>
+                    </div>
+                    <!-- notes -->
+                    <div class="form-floating mb-3">
+                      <textarea
+                        class="form-control"
+                        placeholder="Leave a comment here"
+                        id="floatingNotes"
+                        style="height: 100px"
+                      ></textarea>
+                      <label for="floatingNotes">Notes</label>
+                    </div>
                   </div>
-                  <!-- notes -->
-                  <div class="form-floating mb-3">
-                    <textarea
-                      class="form-control"
-                      placeholder="Leave a comment here"
-                      id="floatingNotes"
-                      style="height: 100px"
-                    ></textarea>
-                    <label for="floatingNotes">Notes</label>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"  >
+                      Create
+                    </button>
                   </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">Create</button>
-                </div>
+                </form>
               </div>
             </div>
           </div>
