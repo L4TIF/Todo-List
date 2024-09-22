@@ -3,9 +3,9 @@ import { appendInDom } from "./renderData";
 
 
 // Function to render the project name
-const listDataProject = (projectName, isFirst = false) => {
+const listDataProject = (projectName, isFirst = false, setFirstActive) => {
     const r = appendInDom();
-    r.renderProjectName(projectName, isFirst); // Pass the isFirst parameter if needed
+    r.renderProjectName(projectName, isFirst, setFirstActive); // Pass the isFirst parameter if needed
 };
 
 // Function to render todos for the active project
@@ -15,16 +15,20 @@ const listDataTodo = (activeTask, todosList) => {
 }
 
 // Function to loop through all projects and render project names and todos if active
-const loopData = () => {
+const loopData = (setFirstActive = true) => {
     const data = getAllProjects() ?? [];
     const domAppender = appendInDom();
     domAppender.clearHTMLContainers();
 
     if (data.length > 0) {
         data.forEach((dataObj, index) => {
-            listDataProject(dataObj.projectName, index === 0); // Set active state for the first project
+            if (setFirstActive)
+                listDataProject(dataObj.projectName, index === 0); // Set active state for the first project
+            else
+                listDataProject(dataObj.projectName); // Set active state for the first project
         });
         console.log("Projects rendered:", data.map(d => d.projectName).join(", "));
+        loopDataTodo();
     } else {
         console.warn("No projects found.");
     }
@@ -37,9 +41,10 @@ const loopDataTodo = () => {
     const data = getAllProjects() ?? [];  // Default to an empty array
     const domAppender = appendInDom();    // Get the DOM appender instance
     const activeTask = domAppender.getActiveTask();  // Get the active task (project)
-
+    domAppender.clearTodoContainer();
     if (!activeTask) {
         console.log("No active task found.");
+        domAppender.setTaskListName();
         return;
     }
 
@@ -53,7 +58,9 @@ const loopDataTodo = () => {
         return formattedProjectName === activeTaskName;
     });
 
+
     if (matchedProject) {
+        domAppender.setTaskListName(matchedProject.projectName);
         console.log("Matched project:", matchedProject);  // Add this line to inspect the matched project
         domAppender.clearTodoContainer();
         if (matchedProject.todos) {

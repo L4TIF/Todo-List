@@ -1,20 +1,23 @@
 let projectNameContainer;
 window.innerWidth < 960 ? projectNameContainer = document.querySelector(".lists") : projectNameContainer = document.querySelector(".lists-lg");
 let todoContainer = document.querySelector(".todo-lists");
-
+const taskListName = document.querySelector(".task-list-heading .tasklist-name");
 
 const appendInDom = () => {
-  const renderProjectName = (projectName, isFirst = false) => {
+
+
+  const renderProjectName = (projectName, isFirst = false, setFirstActive = true) => {
+    
+
     const project = document.createElement("li");
     project.classList.add("task", "btn", "btn-light");
     project.setAttribute("name", projectName.split(" ").join(""));
     project.textContent = projectName;
 
     // Set the active class if this is the first project
-    if (isFirst) {
+    if (isFirst && setFirstActive) {
       project.classList.add("active");
     }
-
     // Add event listener to set the active class on click
     project.addEventListener("click", () => {
       Array.from(projectNameContainer.children).forEach(child => child.classList.remove("active"));
@@ -55,6 +58,14 @@ const appendInDom = () => {
     todoContainer.innerHTML += todoItem;
   };
 
+  const setTaskListName = (projectName = "No Active list") => {
+    taskListName.textContent = projectName
+    console.log(projectName)
+  }
+
+
+
+
   // Clear the todo container
   const clearTodoContainer = () => {
     todoContainer.innerHTML = "";  // Clear the container before adding new todos
@@ -69,13 +80,13 @@ const appendInDom = () => {
   const getActiveTask = () => {
     const activeTask = Array.from(projectNameContainer.children).find(element => element.classList.contains("active"));
     if (!activeTask) {
-      console.error("No active task found.");
+      console.warn("No active task found.");
       return null;  // Explicitly return null if no active task
     }
     return activeTask;
   };
 
-  return { renderProjectName, renderTodo, clearHTMLContainers, getActiveTask,clearTodoContainer };
+  return { renderProjectName, renderTodo, clearHTMLContainers, getActiveTask, clearTodoContainer, setTaskListName };
 };
 
 export { appendInDom };

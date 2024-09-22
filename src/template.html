@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,17 +27,17 @@
   <body class="vh-100">
     <header class="" style="height: 8%">
       <nav
-        class="navbar navbar-expand-lg border-bottom  border-opacity-50 h-100"
+        class="navbar navbar-expand-lg border-bottom border-opacity-50 h-100"
       >
         <div class="container-fluid justify-content-start gap-3">
           <div class="navbar-nav">
             <button
-              class="navbar-toggler border-0 "
+              class="navbar-toggler border-0"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#navbar"
               aria-controls="navbar"
-            > 
+            >
               <span class="navbar-toggler-icon"></span>
             </button>
           </div>
@@ -69,7 +69,7 @@
       <div class="offcanvas-body project-container-sm">
         <!-- creating new list button -->
         <button
-          class="btn btn-primary w-100 mb-2 "
+          class="btn btn-primary w-100 mb-2"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapse"
@@ -101,9 +101,7 @@
           class="lists fs-3 mb-2 d-flex flex-column ps-0"
           data-bs-dismiss="offcanvas"
           data-bs-target="#navbar"
-        >
-          
-        </ul>
+        ></ul>
       </div>
     </div>
 
@@ -130,7 +128,6 @@
                 data-bs-target="#collapse"
               >
               </i>
-            
             </div>
 
             <div class="collapse" id="collapse">
@@ -152,19 +149,17 @@
               </div>
             </div>
             <!-- side bar list -->
-            <ul class="lists-lg  d-flex flex-column ps-0">
-             
-            </ul>
+            <ul class="lists-lg d-flex flex-column ps-0"></ul>
           </div>
         </div>
         <!-- todo container -->
         <div class="col" id="todos">
-          <div class="todo-container ">
+          <div class="todo-container">
             <!-- todo container heading -->
             <div
               class="task-list-heading p-3 d-flex justify-content-between align-items-center"
             >
-              <h2 class="tasklist-name">My Tasks</h2>
+              <h2 class="tasklist-name"></h2>
 
               <i
                 class="bi bi-three-dots-vertical dropdown fs-4 btn btn-light rounded-circle border-0"
@@ -174,137 +169,229 @@
               ></i>
 
               <ul
-                class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start"
+                class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start task-dropdown"
               >
                 <li>
-                  <button class="dropdown-item" type="button">
+                  <button
+                    class="dropdown-item"
+                    role="rename"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#rename-tasklist"
+                  >
                     Rename list
                   </button>
                 </li>
                 <li>
-                  <button class="dropdown-item" type="button">
+                  <button
+                    class="dropdown-item btn btn-danger"
+                    role="delete"
+                    type="button"
+                  >
                     Delete list
                   </button>
                 </li>
+                <li>
+                  <button
+                    class="dropdown-item btn btn-danger"
+                    role="empty-local"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#delete-local"
+                  >
+                    Empty local storage
+                  </button>
+                </li>
               </ul>
-            </div>
-            <!-- add task container -->
-            <div
-              class="add-task-container w-100  d-flex flex-column align-items-center"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#add-todo"
-            >
+              <!-- empty local storage modal -->
               <div
-                class="add-task d-flex gap-2 align-items-center justify-content-center rounded w-75 btn btn-light  text-primary"
-                style="cursor: pointer"
+                class="modal fade"
+                id="delete-local"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
               >
-                <i class="bi bi-plus-circle fs-3"></i>
-                <p class="mb-0">Add a task</p>
-              </div>
-            </div>
-            <!--Add task modal -->
-            <div
-              class="modal fade"
-              id="add-todo"
-              data-bs-backdrop="static"
-              data-bs-keyboard="false"
-              tabindex="-1"
-              aria-labelledby="add-todoLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="add-todoLabel">
-                      Add task
-                    </h1>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <!-- modal body form -->
-                    <!-- title -->
-                    <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="floatingTitle" placeholder="title name" required>
-                      <label for="floatingTitle">Enter task name</label>
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="add-todoLabel">
+                        Are you sure this will delete all of your todos
+                        permanently
+                      </h1>
                     </div>
-                    <!-- desc -->
-                    <div class="form-floating">
-                      <textarea class="form-control" placeholder="description" id="floatingdesc"></textarea>
-                      <label for="floatingdesc">Description</label>
-                    </div>
-                    <!-- due date -->
-                    
-                    <label for="due-date ">Due Date </label>
-                    <input type="date" class="form-control mb-3" id="due-date">
 
-
-                    <!-- priority -->
-                    <div class="form-floating mb-3">
-                      <select class="form-select" id="floatingPriority">
-                        <option selected>None</option>
-                        <option value="1" class="text-success">Low</option>
-                        <option value="2" class="text-warning">Medium</option>
-                        <option value="3" class="text-danger">High</option>
-                      </select>
-                      <label for="floatingPriority">Set priority of task</label>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        role="cancel"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        role="delete"
+                        class="btn btn-danger"
+                        data-bs-dismiss="modal"
+                        id="deleteLocal"
+                      >
+                        Delete
+                      </button>
                     </div>
-                    <!-- notes -->
-                    <div class="form-floating mb-3">
-                      <textarea class="form-control" placeholder="Leave a comment here" id="floatingNotes" style="height: 100px"></textarea>
-                      <label for="floatingNotes">Notes</label>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">
-                      Create
-                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- todo container body -->
-             <!-- todo lists -->
-              <ul class="todo-lists container-lg mx-auto my-4" id="todo-lists">
-            <li class="todo btn btn-outline-dark w-100 mb-3"  type="button" data-bs-toggle="collapse" data-bs-target="#todo">
-              <!-- button -->
+              <!-- modal ends here -->
+              <!-- rename modal -->
               <div
-                class="new-todo d-flex justify-content-between">           
-             
-                <div class="todo-status-icon"><i class="bi bi-circle"></i></div>
-                <div class="todo-details w-100 d-flex justify-content-between mx-lg-5 mx-3">
-                <div class="todo-title">title</div>
-                <i class="bi bi-calendar-event todo-due-date">18-09-2024</i>
-                <div class="todo-priority"><i class="bi bi-hourglass-split"></i><span class="priority">priority</span></div>
-              </div>
+                class="modal fade"
+                id="rename-tasklist"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="add-todoLabel">
+                        Rename list
+                      </h1>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-floating mb-3">
+                        <input
+                          type="text"
+                          class="form-control rename-list-input"
+                          id="floatingTitle"
+                          placeholder="task name"
+                          required
+                        />
+                        <label for="floatingTitle">New name</label>
+                      </div>
+                    </div>
 
-              <div class="todo-edit wrapper btn-group">
-                <i class="bi bi-pencil-square todo-edit" type="button" data-bs-toggle="dropdown" data-bs-display="static"></i>
-                <ul class="dropdown-menu dropdown-menu-end  dropdown-menu-lg-start">
-                  <li><button class="dropdown-item edit" type="button">Edit</button></li>
-                  <li><button class="dropdown-item delete" type="button">Delete</button></li>
-                </ul>
-              </div>
-
-              </div>
-
-              <div class="collapse" id="todo">
-                <div class="todo-body d-flex flex-column align-items-lg-start">
-                  <div class="todo-desc">desc</div>
-                  <div class="todo-notes">notes</div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        role="cancel"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        role="rename"
+                        class="btn btn-success"
+                        data-bs-dismiss="modal"
+                        id="rename-list"
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </li>
-           
-          </ul>
-            <!-- todo list container ends here -->
+              <!-- modal ends here -->
+            </div>
           </div>
+          <!-- add task container -->
+          <div
+            class="add-task-container w-100 d-flex flex-column align-items-center"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#add-todo"
+          >
+            <div
+              class="add-task d-flex gap-2 align-items-center justify-content-center rounded w-75 btn btn-light text-primary"
+              style="cursor: pointer"
+            >
+              <i class="bi bi-plus-circle fs-3"></i>
+              <p class="mb-0">Add a task</p>
+            </div>
+          </div>
+          <!--Add task modal -->
+          <div
+            class="modal fade"
+            id="add-todo"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="add-todoLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="add-todoLabel">Add task</h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <!-- modal body form -->
+                  <!-- title -->
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="floatingTitle"
+                      placeholder="title name"
+                      required
+                    />
+                    <label for="floatingTitle">Enter task name</label>
+                  </div>
+                  <!-- desc -->
+                  <div class="form-floating">
+                    <textarea
+                      class="form-control"
+                      placeholder="description"
+                      id="floatingdesc"
+                    ></textarea>
+                    <label for="floatingdesc">Description</label>
+                  </div>
+                  <!-- due date -->
+
+                  <label for="due-date ">Due Date </label>
+                  <input type="date" class="form-control mb-3" id="due-date" />
+
+                  <!-- priority -->
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="floatingPriority">
+                      <option selected>None</option>
+                      <option value="1" class="text-success">Low</option>
+                      <option value="2" class="text-warning">Medium</option>
+                      <option value="3" class="text-danger">High</option>
+                    </select>
+                    <label for="floatingPriority">Set priority of task</label>
+                  </div>
+                  <!-- notes -->
+                  <div class="form-floating mb-3">
+                    <textarea
+                      class="form-control"
+                      placeholder="Leave a comment here"
+                      id="floatingNotes"
+                      style="height: 100px"
+                    ></textarea>
+                    <label for="floatingNotes">Notes</label>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary">Create</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- todo container body -->
+          <!-- todo lists -->
+          <ul class="todo-lists container-lg mx-auto my-4" id="todo-lists"></ul>
+
+          <!-- todo list container ends here -->
         </div>
       </div>
     </div>

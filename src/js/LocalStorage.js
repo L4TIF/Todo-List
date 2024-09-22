@@ -3,7 +3,7 @@
 //     let keys = Object.keys(localStorage);
 //     let i = keys.length;
 
-import { loopData } from "./destructureData";
+import { loopData, loopDataTodo } from "./destructureData";
 
 //     while (i--)
 //         values.push({
@@ -31,6 +31,7 @@ const updateLocalData = (projectName, todo = []) => {
     localStorage.clear();  //clear local
     setLocalData(data)  // add new data
     loopData(); //update dom
+    loopDataTodo();
     console.log("local Data updated....succesfully")
 }
 
