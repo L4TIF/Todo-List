@@ -7,7 +7,7 @@ const appendInDom = () => {
 
 
   const renderProjectName = (projectName, isFirst = false, setFirstActive = true) => {
-    
+
 
     const project = document.createElement("li");
     project.classList.add("task", "btn", "btn-light");
@@ -80,9 +80,11 @@ const appendInDom = () => {
   const getActiveTask = () => {
     const activeTask = Array.from(projectNameContainer.children).find(element => element.classList.contains("active"));
     if (!activeTask) {
+      document.querySelector(".add-task-container").classList.add("d-none")
       console.warn("No active task found.");
       return null;  // Explicitly return null if no active task
     }
+    document.querySelector(".add-task-container").classList.remove("d-none")
     return activeTask;
   };
 
