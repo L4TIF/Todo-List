@@ -3,9 +3,9 @@ import { appendInDom } from "./renderData";
 
 
 // Function to render the project name
-const listDataProject = (projectName, isFirst = false, setFirstActive) => {
+const listDataProject = (projectName, isFirst = false, setFirstActive, activeTask) => {
     const r = appendInDom();
-    r.renderProjectName(projectName, isFirst, setFirstActive); // Pass the isFirst parameter if needed
+    r.renderProjectName(projectName, isFirst, setFirstActive, activeTask); // Pass the isFirst parameter if needed
 };
 
 // Function to render todos for the active project
@@ -15,20 +15,30 @@ const listDataTodo = (activeTask, todosList) => {
 }
 
 // Function to loop through all projects and render project names and todos if active
-const loopData = (setFirstActive = true) => {
+const loopData = (setFirstActive = true, activeTaskName = null) => {
     const data = getAllProjects() ?? [];
     const domAppender = appendInDom();
-    domAppender.clearHTMLContainers();
+    domAppender.clearHTMLContainers();  
 
     if (data.length > 0) {
         data.forEach((dataObj, index) => {
-            if (setFirstActive)
-                listDataProject(dataObj.projectName, index === 0); // Set active state for the first project
-            else
-                listDataProject(dataObj.projectName); // Set active state for the first project
+            const isActive = setFirstActive && index === 0;
+            listDataProject(dataObj.projectName, isActive, activeTaskName);
         });
         console.log("Projects rendered:", data.map(d => d.projectName).join(", "));
-        loopDataTodo();
+
+        // After rendering projects, check for an active project
+        const activeTask = domAppender.getActiveTask();
+        if (activeTask) {
+            const matchedProject = data.find(dataObj => {
+                const formattedProjectName = dataObj.projectName.split(" ").join("");
+                return formattedProjectName === activeTask.getAttribute("name").replace(/\s+/g, "");
+            });
+
+            if (matchedProject) {
+                listDataTodo(activeTask, matchedProject); // Render todos for the active project
+            }
+        }
     } else {
         console.warn("No projects found.");
     }
@@ -36,41 +46,36 @@ const loopData = (setFirstActive = true) => {
 
 
 
-// Function to loop through all projects and render todos if the project is active
 const loopDataTodo = () => {
-    const data = getAllProjects() ?? [];  // Default to an empty array
-    const domAppender = appendInDom();    // Get the DOM appender instance
-    const activeTask = domAppender.getActiveTask();  // Get the active task (project)
+    const data = getAllProjects() ?? [];
+    const domAppender = appendInDom();
+    const activeTask = domAppender.getActiveTask(); // Get the active project
+
     domAppender.clearTodoContainer();
+
     if (!activeTask) {
         console.log("No active task found.");
         domAppender.setTaskListName();
-        return;
+        return; // Exit if no active project
     }
 
-    const activeTaskName = activeTask.getAttribute("name").replace(/\s+/g, "");  // Get the active task's name
-    console.log("Active Task Name:", activeTaskName);
+    const activeTaskName = activeTask.getAttribute("name").replace(/\s+/g, ""); // Get the active task's name
 
-    // Find the matching project
     const matchedProject = data.find(dataObj => {
-        const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
-        console.log(`Checking project: ${formattedProjectName}`);
+        const formattedProjectName = dataObj.projectName.split(" ").join(""); // Format the project name
         return formattedProjectName === activeTaskName;
     });
 
-
     if (matchedProject) {
         domAppender.setTaskListName(matchedProject.projectName);
-        console.log("Matched project:", matchedProject);  // Add this line to inspect the matched project
-        domAppender.clearTodoContainer();
+        console.log("Matched project:", matchedProject);
+
         if (matchedProject.todos) {
             matchedProject.todos.forEach(todo => {
                 domAppender.renderTodo(matchedProject.projectName, todo.title, todo.desc, todo.dueDate, todo.priority, todo.notes);
-
-            })
+            });
         } else {
-            console.log("todosList or todos array is missing or invalid.");
-            console.log("Matched project todosList:", matchedProject.todosList);  // Log the actual todosList object
+            console.log("No todos found for the matched project.");
         }
     } else {
         console.log("No matching project for the active task.");

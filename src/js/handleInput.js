@@ -107,12 +107,13 @@ document.querySelector("#deleteLocal").addEventListener("click", () => { //delet
 })
 
 document.querySelector("#rename-list").addEventListener("click", () => {
+
     const domAppender = appendInDom();    // Get the DOM appender instance
     const activeTask = domAppender.getActiveTask();  // Get the active task (project)
 
     // Get the active task's name before renaming
     const activeTaskName = activeTask.getAttribute("name").replace(/\s+/g, "");
-    const newName = document.querySelector(".rename-list-input").value.trim() ?? ""; // Trim the new name input
+
 
     const data = getAllProjects() ?? [];
 
@@ -121,6 +122,7 @@ document.querySelector("#rename-list").addEventListener("click", () => {
         return formattedProjectName === activeTaskName;
     });
 
+    const newName = document.querySelector(".rename-list-input").value.trim() ?? ""; // Trim the new name input
     // Proceed with renaming if we found the project and a new name is provided
     if (matchedProject && newName) {
         matchedProject.projectName = newName; // Update the project name
@@ -153,50 +155,38 @@ formData.addEventListener("submit", () => {
     event.preventDefault();
     const title = formData.querySelector("#floatingTitle").value;
     const desc = formData.querySelector("#floatingdesc").value;
-    const date = formData.querySelector("#due-date").value;
-    const priority = formData.querySelector("#floatingPriority").value;
+    const date = formData.querySelector("#due-date").value ?? new Date();
+    const priority = formData.querySelector("#floatingPriority").value ?? "low";
     const notes = formData.querySelector("#floatingNotes").value;
 
+    const domAppender = appendInDom();
+    const activeTaskName = domAppender.getActiveTask();
 
+    const data = getAllProjects() ?? [];
+    // Find the matching project
+    const matchedProject = data.find(dataObj => {
+        const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
+        console.log(`Checking project: ${formattedProjectName}`);
+        if (activeTaskName)
+            return formattedProjectName === activeTaskName.getAttribute("name").replace(/\s+/g, "");
+    });
 
-
-
-
-
-
-
-
-
-
-
-
+    if (matchedProject) {
+        matchedProject.todos.push({ title, desc, date, priority, notes });
+        console.log(activeTaskName)
+        setLocalData(data);
+        loopData(false,activeTaskName);
+        loopDataTodo();
+    }
 
 
 
     console.log(title, desc, date, priority, notes);
-    console.log(appendInDom().getActiveTask())
+
     formData.reset() //reset form after submit
     const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
     modal.hide();
 })
-
-
-
-const getMatchedProject = () => {
-    const domAppender = appendInDom();    // Get the DOM appender instance
-    const activeTask = domAppender.getActiveTask();  // Get the active task (project)
-
-    // Get the active task's name before renaming
-    const activeTaskName = activeTask.getAttribute("name").replace(/\s+/g, "");
-
-
-    const data = getAllProjects() ?? [];
-
-    const matchedProject = data.find(dataObj => {
-        const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
-        return formattedProjectName === activeTaskName;
-    });
-}
 
 
 

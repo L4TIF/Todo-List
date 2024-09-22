@@ -4,30 +4,22 @@ let todoContainer = document.querySelector(".todo-lists");
 const taskListName = document.querySelector(".task-list-heading .tasklist-name");
 
 const appendInDom = () => {
-
-
-  const renderProjectName = (projectName, isFirst = false, setFirstActive = true) => {
-
-
+  const renderProjectName = (projectName, isFirst = false, activeTask) => {
     const project = document.createElement("li");
     project.classList.add("task", "btn", "btn-light");
     project.setAttribute("name", projectName.split(" ").join(""));
     project.textContent = projectName;
 
-    // Set the active class if this is the first project
-    if (isFirst && setFirstActive) {
-      project.classList.add("active");
+    // Set the active class if this is the first project or if there's an active task
+    if (isFirst) {
+        project.classList.add("active");
+    } else if (activeTask && activeTask.getAttribute("name").replace(/\s+/g, "") === project.getAttribute("name")) {
+        project.classList.add("active");
     }
-    // Add event listener to set the active class on click
-    project.addEventListener("click", () => {
-      Array.from(projectNameContainer.children).forEach(child => child.classList.remove("active"));
-      project.classList.add("active");
-      // Trigger any additional actions for the active project here
-    });
+
 
     projectNameContainer.appendChild(project);
-  };
-
+};
 
   const renderTodo = (projectName, title, desc, dueDate, priority, notes) => {
     const todoItem = `
