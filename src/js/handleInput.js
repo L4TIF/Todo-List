@@ -89,7 +89,8 @@ const handleDelete = () => {
     const matchedProject = data.find(dataObj => {
         const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
         console.log(`Checking project: ${formattedProjectName}`);
-        return formattedProjectName === activeTaskName.getAttribute("name").replace(/\s+/g, "");
+        if (activeTaskName)
+            return formattedProjectName === activeTaskName.getAttribute("name").replace(/\s+/g, "");
     });
     if (matchedProject) {
         const updatedData = data.filter(obj => obj !== matchedProject);
