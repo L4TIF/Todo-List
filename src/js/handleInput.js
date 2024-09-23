@@ -181,15 +181,13 @@ formData.addEventListener("submit", () => {
         console.log(activeTaskName, matchedProject)
         console.log(title, desc, dueDate, priority, notes);
         const timeLeft = calcDate(dueDate, dueTime);
-        matchedProject.todos.push({ title, desc, timeLeft, priority, notes });
+        const isComplete = false;
+        matchedProject.todos.push({ title, desc, timeLeft, priority, notes, isComplete });
         setLocalData(data);
         loopData(false, activeTaskName);
         loopDataTodo();
     }
 
-    console.log(calcDate(dueDate, dueTime))
-    // console.log(dueDate.split("-"))
-    console.log(title, desc, dueDate, dueTime, priority, notes);
 
     formData.reset() //reset form after submit
     const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
@@ -199,24 +197,53 @@ formData.addEventListener("submit", () => {
 
 
 
+const handleTick = (event) => {
+    const domAppender = appendInDom();
+    const matchedProject = getMatchedProject();
+    const { matchedTodo, data } = getMatchedTodo(event.target.id);
 
-const domAppender = appendInDom();
-const activeTaskName = domAppender.getActiveTask();
-if (activeTaskName) {
+    if (matchedTodo) {
+        // Toggle the completion status
+        matchedTodo.isComplete = !matchedTodo.isComplete;
+        console.log("todo complete")
+        setLocalData(data);
+        loopData(false)
+        loopDataTodo()
+    }
 
-    document.querySelector(".todo-status-icon").addEventListener("toggle", (event) => {
-        console.log(event.target)
-    })
 
 }
 
 
 
+const getMatchedProject = () => {
+    const domAppender = appendInDom();
+    const activeTaskName = domAppender.getActiveTask();
+
+    const data = getAllProjects() ?? [];
+    // Find the matching project
+    const matchedProject = data.find(dataObj => {
+        const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
+        console.log(`Checking project: ${formattedProjectName}`);
+        if (activeTaskName)
+            return formattedProjectName === activeTaskName.getAttribute("name").replace(/\s+/g, "");
+    });
+    return { matchedProject, data }
+}
+
+const getMatchedTodo = (id) => {
+    const { matchedProject, data } = getMatchedProject();
+    console.log(matchedProject)
+    const matchedTodo = matchedProject.todos.find(todo => {
+        const formattedTodoName = todo.title.split(" ").join("");
+        console.log(id, "icon-" + formattedTodoName)
+        return id === "icon-" + formattedTodoName
+    })
+
+    return { matchedTodo, data }
+}
 
 
 
 
-
-
-
-export { setNewProject };
+export { setNewProject, handleTick };

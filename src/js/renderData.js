@@ -1,3 +1,5 @@
+import { handleTick } from "./handleInput";
+
 let projectNameContainer;
 window.innerWidth < 960 ? projectNameContainer = document.querySelector(".lists") : projectNameContainer = document.querySelector(".lists-lg");
 let todoContainer = document.querySelector(".todo-lists");
@@ -21,39 +23,120 @@ const appendInDom = () => {
     projectNameContainer.appendChild(project);
   };
 
-  const renderTodo = (projectName, title, desc, dueDate, priority, notes, id, isComplete = false) => {
-    const todoItem = `
-    
-      <li class="todo btn ${isComplete ? "bg-dark-subtle" : "btn-outline-dark"} w-100 mb-3" data-project="${projectName.split(" ").join("")}" type="button" data-bs-toggle="collapse" data-bs-target="#${id}">
-        <div class="new-todo d-flex justify-content-between">           
-          <div class="todo-status-icon"><i class="bi bi-${isComplete ? "check2-" : ""}circle" ></i></div>
-          <div class="todo-details w-100 d-flex justify-content-between mx-lg-5 mx-3">
-            <div class="todo-title">${title}</div>
-            <i class="bi bi-calendar-event todo-due-date">&nbsp;${dueDate}</i>
-            <div class="todo-priority"><i class="bi bi-hourglass-split"></i><span class="priority">${priority}</span></div>
-          </div>
-          <div class="todo-edit wrapper btn-group">
-            <i class="bi bi-pencil-square todo-edit" type="button" data-bs-toggle="dropdown" data-bs-display="static"></i>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-              <li><button class="dropdown-item" type="button">Edit</button></li>
-              <li><button class="dropdown-item" type="button">Delete</button></li>
-            </ul>
-          </div>
-        </div>
-        <div class="collapse" id="${id}">
-          <div class="todo-body d-flex flex-column align-items-lg-start">
-            <hr />
-            <div class="todo-desc"><div>Description</div>${desc}</div>
-            <hr />
-            <div class="todo-notes"><div>Notes</div>${notes}</div>
-          </div>
-        </div>
-      </li>`;
+  const renderTodo = (projectName, title, desc, dueDate, priority, notes, isComplete = false) => {
+    const id = title.toString().split(" ").join("");
+    // Create the main list item
+    const todoItem = document.createElement('li');
+    todoItem.className = `todo btn ${isComplete ? "bg-dark-subtle" : "btn-outline-dark"} w-100 mb-3`;
+    todoItem.dataset.project = projectName.split(" ").join("");
+    todoItem.type = "button";
+    todoItem.dataset.bsToggle = "collapse";
+    todoItem.dataset.bsTarget = `#${id}`;
 
-    todoContainer.innerHTML += todoItem;
-  
+    // Create the inner structure
+    const newTodo = document.createElement('div');
+    newTodo.className = "new-todo d-flex justify-content-between";
 
+    const todoStatusIcon = document.createElement('div');
+    todoStatusIcon.className = "todo-status-icon";
+    const statusIcon = document.createElement('i');
+    statusIcon.id = "icon-" + id;
+
+    statusIcon.className = isComplete ? "bi bi-check2-circle" : "bi bi-circle";
+
+    todoStatusIcon.appendChild(statusIcon);
+    todoStatusIcon.addEventListener("click", handleTick)
+
+
+    const todoDetails = document.createElement('div');
+    todoDetails.className = "todo-details w-100 d-flex justify-content-between mx-lg-5 mx-3";
+
+    const todoTitle = document.createElement('div');
+    todoTitle.className = "todo-title";
+    todoTitle.textContent = title;
+
+    const todoDueDate = document.createElement('i');
+    todoDueDate.className = "bi bi-calendar-event todo-due-date";
+    todoDueDate.textContent = ` ${dueDate}`;
+
+    const todoPriority = document.createElement('div');
+    todoPriority.className = "todo-priority";
+    const priorityIcon = document.createElement('i');
+    priorityIcon.className = "bi bi-hourglass-split";
+    todoPriority.appendChild(priorityIcon);
+    const prioritySpan = document.createElement('span');
+    prioritySpan.className = "priority";
+    prioritySpan.textContent = priority;
+    todoPriority.appendChild(prioritySpan);
+
+    todoDetails.appendChild(todoTitle);
+    todoDetails.appendChild(todoDueDate);
+    todoDetails.appendChild(todoPriority);
+
+    const todoEdit = document.createElement('div');
+    todoEdit.className = "todo-edit wrapper btn-group";
+    const editIcon = document.createElement('i');
+    editIcon.className = "bi bi-pencil-square todo-edit";
+    editIcon.type = "button";
+    editIcon.dataset.bsToggle = "dropdown";
+    editIcon.dataset.bsDisplay = "static";
+
+    const dropdownMenu = document.createElement('ul');
+    dropdownMenu.className = "dropdown-menu dropdown-menu-end dropdown-menu-lg-start";
+
+    const editItem = document.createElement('li');
+    const editButton = document.createElement('button');
+    editButton.className = "dropdown-item";
+    editButton.type = "button";
+    editButton.textContent = "Edit";
+    editItem.appendChild(editButton);
+
+    const deleteItem = document.createElement('li');
+    const deleteButton = document.createElement('button');
+    deleteButton.className = "dropdown-item";
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+    deleteItem.appendChild(deleteButton);
+
+    dropdownMenu.appendChild(editItem);
+    dropdownMenu.appendChild(deleteItem);
+    todoEdit.appendChild(editIcon);
+    todoEdit.appendChild(dropdownMenu);
+
+    newTodo.appendChild(todoStatusIcon);
+    newTodo.appendChild(todoDetails);
+    newTodo.appendChild(todoEdit);
+    todoItem.appendChild(newTodo);
+
+    // Create the collapsible body
+    const collapseDiv = document.createElement('div');
+    collapseDiv.className = "collapse";
+    collapseDiv.id = id;
+
+    const todoBody = document.createElement('div');
+    todoBody.className = "todo-body d-flex flex-column align-items-lg-start";
+
+    const hr1 = document.createElement('hr');
+    const descDiv = document.createElement('div');
+    descDiv.className = "todo-desc";
+    descDiv.innerHTML = `<div>Description</div>${desc}`;
+
+    const hr2 = document.createElement('hr');
+    const notesDiv = document.createElement('div');
+    notesDiv.className = "todo-notes";
+    notesDiv.innerHTML = `<div>Notes</div>${notes}`;
+
+    todoBody.appendChild(hr1);
+    todoBody.appendChild(descDiv);
+    todoBody.appendChild(hr2);
+    todoBody.appendChild(notesDiv);
+    collapseDiv.appendChild(todoBody);
+    todoItem.appendChild(collapseDiv);
+
+    // Append the todo item to the container
+    todoContainer.appendChild(todoItem);
   };
+
 
   const setTaskListName = (projectName = "No Active list") => {
     taskListName.textContent = projectName
