@@ -1,3 +1,5 @@
+import { formatDistanceToNow } from "date-fns";
+
 // create project
 const createProject = (name) => {
     let todos = [];
@@ -5,8 +7,8 @@ const createProject = (name) => {
     const getProjectName = () => projectName; //get name
     const setProjectName = (newName) => projectName = newName; //set name
     // create todo
-    const createTodo = (title, desc, dueDate, priority, notes, isComplete = false) => {
-        todos.push({ title, desc, dueDate, priority, notes, isComplete });
+    const createTodo = (title, desc, timeLeft, priority, notes, isComplete = false) => {
+        todos.push({ title, desc, timeLeft, priority, notes, isComplete });
     }
     // get all todos
     const getAllTodos = () => { return { projectName, todos } };
@@ -20,4 +22,26 @@ const createProject = (name) => {
     return { getProjectName, setProjectName, createTodo, getAllTodos, getTodosByIndex }
 }
 
-export { createProject } 
+const calcDate = (dueDate, dueTime) => {
+    if (!(dueDate && dueTime)) return "";
+    const [year, month, date] = dueDate.map(Number);
+    const [hour, minutes] = dueTime.map(Number);
+
+    console.log(dueDate, year, month, date)
+    return formatDistanceToNow(
+        new Date(year, month - 1, date, hour, minutes),
+        { addSuffix: true }
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+export { createProject, calcDate } 

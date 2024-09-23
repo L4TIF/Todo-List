@@ -1,4 +1,4 @@
-import { createProject } from "./createProject";
+import { calcDate, createProject } from "./createProject";
 import { loopData, loopDataTodo } from "./destructureData";
 import { updateLocalData, getAllProjects, setLocalData } from "./LocalStorage";
 import { appendInDom } from "./renderData";
@@ -154,14 +154,20 @@ const formData = document.querySelector("#get-form-data");
 formData.addEventListener("submit", () => {
     event.preventDefault();
     const title = formData.querySelector("#floatingTitle").value;
-    const desc = formData.querySelector("#floatingdesc").value;
-    const date = formData.querySelector("#due-date").value ?? new Date();
-    const priority = formData.querySelector("#floatingPriority").value ?? "low";
-    const notes = formData.querySelector("#floatingNotes").value;
+    const desc = formData.querySelector("#floatingdesc").value || "null";
+
+    const dueDateValue = formData.querySelector("#due-date").value;
+    const dueTimeValue = formData.querySelector("#due-time").value;
+    const dueDate = dueDateValue ? dueDateValue.split("-") : null;
+    const dueTime = dueTimeValue ? dueTimeValue.split(":") : null;
+
+    const priority = formData.querySelector("#floatingPriority").value || "low";
+    const notes = formData.querySelector("#floatingNotes").value || "null";
 
     const domAppender = appendInDom();
     const activeTaskName = domAppender.getActiveTask();
 
+    // const getDate = calcDate() ?? "none"
     const data = getAllProjects() ?? [];
     // Find the matching project
     const matchedProject = data.find(dataObj => {
@@ -172,16 +178,18 @@ formData.addEventListener("submit", () => {
     });
 
     if (matchedProject) {
-        matchedProject.todos.push({ title, desc, date, priority, notes });
-        console.log(activeTaskName)
+        console.log(activeTaskName, matchedProject)
+        console.log(title, desc, dueDate, priority, notes);
+        const timeLeft = calcDate(dueDate, dueTime);
+        matchedProject.todos.push({ title, desc, timeLeft, priority, notes });
         setLocalData(data);
-        loopData(false,activeTaskName);
+        loopData(false, activeTaskName);
         loopDataTodo();
     }
 
-
-
-    console.log(title, desc, date, priority, notes);
+    console.log(calcDate(dueDate, dueTime))
+    // console.log(dueDate.split("-"))
+    console.log(title, desc, dueDate, dueTime, priority, notes);
 
     formData.reset() //reset form after submit
     const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
@@ -192,10 +200,15 @@ formData.addEventListener("submit", () => {
 
 
 
+const domAppender = appendInDom();
+const activeTaskName = domAppender.getActiveTask();
+if (activeTaskName) {
 
+    document.querySelector(".todo-status-icon").addEventListener("toggle", (event) => {
+        console.log(event.target)
+    })
 
-
-
+}
 
 
 

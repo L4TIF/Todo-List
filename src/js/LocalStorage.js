@@ -24,10 +24,10 @@ const setLocalData = (value) => {
 
 
 
-const updateLocalData = (projectName, todo = []) => {
+const updateLocalData = (projectName, todos = []) => {
 
     const data = getAllProjects() ?? []; //get old data
-    data.push({ projectName, todo })  //modify old data
+    data.push({ projectName, todos })  //modify old data
     localStorage.clear();  //clear local
     setLocalData(data)  // add new data
     loopData(); //update dom

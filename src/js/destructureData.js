@@ -18,7 +18,7 @@ const listDataTodo = (activeTask, todosList) => {
 const loopData = (setFirstActive = true, activeTaskName = null) => {
     const data = getAllProjects() ?? [];
     const domAppender = appendInDom();
-    domAppender.clearHTMLContainers();  
+    domAppender.clearHTMLContainers();
 
     if (data.length > 0) {
         data.forEach((dataObj, index) => {
@@ -50,7 +50,7 @@ const loopDataTodo = () => {
     const data = getAllProjects() ?? [];
     const domAppender = appendInDom();
     const activeTask = domAppender.getActiveTask(); // Get the active project
-
+    console.log("data while looping todo", data)
     domAppender.clearTodoContainer();
 
     if (!activeTask) {
@@ -72,7 +72,8 @@ const loopDataTodo = () => {
 
         if (matchedProject.todos) {
             matchedProject.todos.forEach(todo => {
-                domAppender.renderTodo(matchedProject.projectName, todo.title, todo.desc, todo.dueDate, todo.priority, todo.notes);
+              
+                domAppender.renderTodo(matchedProject.projectName, todo.title, todo.desc, todo.timeLeft, todo.priority, todo.notes, todo.title.split(" ").join(""));
             });
         } else {
             console.log("No todos found for the matched project.");

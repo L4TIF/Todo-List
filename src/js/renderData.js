@@ -12,23 +12,24 @@ const appendInDom = () => {
 
     // Set the active class if this is the first project or if there's an active task
     if (isFirst) {
-        project.classList.add("active");
+      project.classList.add("active");
     } else if (activeTask && activeTask.getAttribute("name").replace(/\s+/g, "") === project.getAttribute("name")) {
-        project.classList.add("active");
+      project.classList.add("active");
     }
 
 
     projectNameContainer.appendChild(project);
-};
+  };
 
-  const renderTodo = (projectName, title, desc, dueDate, priority, notes) => {
+  const renderTodo = (projectName, title, desc, dueDate, priority, notes, id, isComplete = false) => {
     const todoItem = `
-      <li class="todo btn btn-outline-dark w-100 mb-3" data-project="${projectName.split(" ").join("")}" type="button" data-bs-toggle="collapse" data-bs-target="#todo">
+    
+      <li class="todo btn ${isComplete ? "bg-dark-subtle" : "btn-outline-dark"} w-100 mb-3" data-project="${projectName.split(" ").join("")}" type="button" data-bs-toggle="collapse" data-bs-target="#${id}">
         <div class="new-todo d-flex justify-content-between">           
-          <div class="todo-status-icon"><i class="bi bi-circle"></i></div>
+          <div class="todo-status-icon"><i class="bi bi-${isComplete ? "check2-" : ""}circle" ></i></div>
           <div class="todo-details w-100 d-flex justify-content-between mx-lg-5 mx-3">
             <div class="todo-title">${title}</div>
-            <i class="bi bi-calendar-event todo-due-date">${dueDate}</i>
+            <i class="bi bi-calendar-event todo-due-date">&nbsp;${dueDate}</i>
             <div class="todo-priority"><i class="bi bi-hourglass-split"></i><span class="priority">${priority}</span></div>
           </div>
           <div class="todo-edit wrapper btn-group">
@@ -39,15 +40,19 @@ const appendInDom = () => {
             </ul>
           </div>
         </div>
-        <div class="collapse" id="todo">
+        <div class="collapse" id="${id}">
           <div class="todo-body d-flex flex-column align-items-lg-start">
-            <div class="todo-desc">${desc}</div>
-            <div class="todo-notes">${notes}</div>
+            <hr />
+            <div class="todo-desc"><div>Description</div>${desc}</div>
+            <hr />
+            <div class="todo-notes"><div>Notes</div>${notes}</div>
           </div>
         </div>
       </li>`;
 
     todoContainer.innerHTML += todoItem;
+  
+
   };
 
   const setTaskListName = (projectName = "No Active list") => {

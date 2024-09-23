@@ -1,7 +1,7 @@
 // Import our custom CSS
 import '../css/styles.css'
 
-import { createProject } from "./createProject";
+import { calcDate, createProject } from "./createProject";
 import { loopData, loopDataTodo } from './destructureData';
 import { getAllProjects, setLocalData, updateLocalData } from "./LocalStorage";
 import { modifyTitle } from "./modifyTodo";
@@ -15,12 +15,12 @@ const projectsArray = [];
 
 // some projects
 const defaultTask = createProject("My Task");
-defaultTask.createTodo("india", "lorem2sdds", new Date(), "High", "none", false);
-defaultTask.createTodo("india223", "lorem2", new Date(), "High", "none", false);
+defaultTask.createTodo("india", "lorem2sdds", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
+defaultTask.createTodo("india223", "lorem2", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
 
 const NewTask = createProject("My Task2");
-NewTask.createTodo("Australia", "lorem2sdds", new Date(), "High", "none", false);
-NewTask.createTodo("Australia", "lorem2", new Date(), "High", "none", false);
+NewTask.createTodo("Australia", "lorem2sdds", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
+NewTask.createTodo("Australia", "lorem2", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
 
 
 
@@ -33,7 +33,6 @@ if (localStorage.length < 1) {
 }
 
 
-console.log(JSON.parse(localStorage.getItem("All_Projects")))
 loopData();
 loopDataTodo()
 
