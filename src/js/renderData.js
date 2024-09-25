@@ -1,4 +1,4 @@
-import { handleTick } from "./handleInput";
+import { handleTick, handleEditDelete } from "./handleInput";
 
 let projectNameContainer;
 window.innerWidth < 960 ? projectNameContainer = document.querySelector(".lists") : projectNameContainer = document.querySelector(".lists-lg");
@@ -15,7 +15,7 @@ const appendInDom = () => {
     // Set the active class if this is the first project or if there's an active task
     if (isFirst) {
       project.classList.add("active");
-    } else if (activeTask && activeTask.replace(/\s+/g, "") === project.getAttribute("name")) {
+    } else if (activeTask && activeTask.toString().split(" ").join("") === project.getAttribute("name")) {
       project.classList.add("active");
     }
 
@@ -89,6 +89,7 @@ const appendInDom = () => {
     editButton.className = "dropdown-item";
     editButton.type = "button";
     editButton.textContent = "Edit";
+    editButton.id = "edit-" + id;
     editItem.appendChild(editButton);
 
     const deleteItem = document.createElement('li');
@@ -96,11 +97,15 @@ const appendInDom = () => {
     deleteButton.className = "dropdown-item";
     deleteButton.type = "button";
     deleteButton.textContent = "Delete";
+    deleteButton.id = "delete-" + id;
     deleteItem.appendChild(deleteButton);
-    // todo delete event listner
+
+
+
 
     dropdownMenu.appendChild(editItem);
     dropdownMenu.appendChild(deleteItem);
+    dropdownMenu.addEventListener("click", handleEditDelete); //event listner for deleting and editing
     todoEdit.appendChild(editIcon);
     todoEdit.appendChild(dropdownMenu);
 

@@ -1,3 +1,4 @@
+import { da } from "date-fns/locale";
 import { calcDate, createProject } from "./createProject";
 import { loopData, loopDataTodo } from "./destructureData";
 import { updateLocalData, getAllProjects, setLocalData } from "./LocalStorage";
@@ -165,8 +166,8 @@ formData.addEventListener("submit", () => {
     const notes = formData.querySelector("#floatingNotes").value || "null";
 
     const domAppender = appendInDom();
-    const activeTaskName = domAppender.getActiveTask();
 
+    const activeTaskName = getMatchedProject().matchedProject.projectName;
     // const getDate = calcDate() ?? "none"
     const data = getAllProjects() ?? [];
     // Find the matching project
@@ -174,7 +175,7 @@ formData.addEventListener("submit", () => {
         const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
         console.log(`Checking project: ${formattedProjectName}`);
         if (activeTaskName)
-            return formattedProjectName === activeTaskName.getAttribute("name").replace(/\s+/g, "");
+            return formattedProjectName === activeTaskName.replace(/\s+/g, "");
     });
 
     if (matchedProject) {
@@ -214,6 +215,56 @@ const handleTick = (event) => {
 
 }
 
+const handleEditDelete = (event) => {
+    // console.log(getMatchedProject())
+    const { matchedTodo } = getMatchedTodo(event.target.id);
+    const { matchedProject, data } = getMatchedProject();
+
+    let updatedData;
+    console.log(matchedTodo, data)
+    switch (event.target.id.split("-")[0]) {
+        case "edit": console.log("edit todo")
+            break;
+        case "delete": updatedData = handleTodoDelete(matchedTodo, matchedProject, data);
+            break;
+        default:
+            console.log("Invalid click");
+            break;
+
+    }
+    if (updatedData) {
+        setLocalData(updatedData);
+        loopData(false, matchedProject.projectName);
+        loopDataTodo();
+    }
+}
+
+
+const handleTodoDelete = (matchedTodo, matchedProject, data) => {
+
+    const updatedTodo = matchedProject.todos.filter(todo => {
+        return todo.title !== matchedTodo.title;
+    })
+    for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        if (element.projectName === matchedProject.projectName)
+            data[index].todos = updatedTodo
+    }
+    return data
+}
+const handleTodoEdit = (data) => {
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 const getMatchedProject = () => {
@@ -233,11 +284,12 @@ const getMatchedProject = () => {
 
 const getMatchedTodo = (id) => {
     const { matchedProject, data } = getMatchedProject();
+    const formattedId = id.split("-")[1];
     console.log(matchedProject)
     const matchedTodo = matchedProject.todos.find(todo => {
         const formattedTodoName = todo.title.split(" ").join("");
-        console.log(id, "icon-" + formattedTodoName)
-        return id === "icon-" + formattedTodoName
+        console.log(formattedId, formattedTodoName)
+        return formattedId === formattedTodoName
     })
 
     return { matchedTodo, data }
@@ -246,4 +298,4 @@ const getMatchedTodo = (id) => {
 
 
 
-export { setNewProject, handleTick };
+export { setNewProject, handleTick, handleEditDelete };
