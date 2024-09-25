@@ -15,7 +15,7 @@ const appendInDom = () => {
     // Set the active class if this is the first project or if there's an active task
     if (isFirst) {
       project.classList.add("active");
-    } else if (activeTask && activeTask.getAttribute("name").replace(/\s+/g, "") === project.getAttribute("name")) {
+    } else if (activeTask && activeTask.replace(/\s+/g, "") === project.getAttribute("name")) {
       project.classList.add("active");
     }
 
@@ -97,6 +97,7 @@ const appendInDom = () => {
     deleteButton.type = "button";
     deleteButton.textContent = "Delete";
     deleteItem.appendChild(deleteButton);
+    // todo delete event listner
 
     dropdownMenu.appendChild(editItem);
     dropdownMenu.appendChild(deleteItem);

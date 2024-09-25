@@ -201,13 +201,13 @@ const handleTick = (event) => {
     const domAppender = appendInDom();
     const matchedProject = getMatchedProject();
     const { matchedTodo, data } = getMatchedTodo(event.target.id);
-
+    const activeTaskName = getMatchedProject().matchedProject.projectName;
     if (matchedTodo) {
         // Toggle the completion status
         matchedTodo.isComplete = !matchedTodo.isComplete;
-        console.log("todo complete")
+        console.log("todo complete :", matchedTodo)
         setLocalData(data);
-        loopData(false)
+        loopData(false, activeTaskName)
         loopDataTodo()
     }
 
@@ -228,7 +228,7 @@ const getMatchedProject = () => {
         if (activeTaskName)
             return formattedProjectName === activeTaskName.getAttribute("name").replace(/\s+/g, "");
     });
-    return { matchedProject, data }
+    return { matchedProject, data, activeTaskName }
 }
 
 const getMatchedTodo = (id) => {
