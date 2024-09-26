@@ -15,12 +15,9 @@ const projectsArray = [];
 
 // some projects
 const defaultTask = createProject("My Task");
-defaultTask.createTodo("india", "lorem2sdds", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
-defaultTask.createTodo("india223", "lorem2", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
+defaultTask.createTodo("Create the Ultimate ‘Hello World’ App", "This isn’t just any ‘Hello World’—this will be the Mona Lisa of introductory applications. Watch out, world!", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
 
-const NewTask = createProject("My Task2");
-NewTask.createTodo("Australia", "lorem2sdds", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
-NewTask.createTodo("Australia2", "lorem2", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
+
 
 
 
