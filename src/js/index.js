@@ -15,14 +15,14 @@ const projectsArray = [];
 
 // some projects
 const defaultTask = createProject("My Task");
-defaultTask.createTodo("Create the Ultimate ‘Hello World’ App", "This isn’t just any ‘Hello World’—this will be the Mona Lisa of introductory applications. Watch out, world!", calcDate([2024, 9, 26], [23, 2]), "High", "none", false);
+defaultTask.createTodo("Create the Ultimate Hello World App", "This isnt just any Hello World—this will be the Mona Lisa of introductory applications. Watch out, world!","Until the end of time", "High", "none", true);
 
 
 
 
 
 // appending all projects
-projectsArray.push(defaultTask.getAllTodos(), NewTask.getAllTodos());
+projectsArray.push(defaultTask.getAllTodos());
 
 
 if (localStorage.length < 1) {
