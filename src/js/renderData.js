@@ -90,6 +90,8 @@ const appendInDom = () => {
     editButton.type = "button";
     editButton.textContent = "Edit";
     editButton.id = "edit-" + id;
+    editButton.dataset.bsTarget = "#add-todo";
+    editButton.dataset.bsToggle = "modal";
     editItem.appendChild(editButton);
 
     const deleteItem = document.createElement('li');

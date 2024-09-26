@@ -150,9 +150,18 @@ document.querySelector("#rename-list").addEventListener("click", () => {
     loopDataTodo();
 });
 
+document.querySelector(".add-task-container").addEventListener("click", () => {
 
-const formData = document.querySelector("#get-form-data");
-formData.addEventListener("submit", () => {
+    const formData = document.querySelector("#get-form-data");
+    formData.addEventListener("submit", handleFormSubmit);
+   
+})
+
+
+
+
+const handleFormSubmit = () => {
+    const formData = document.querySelector("#get-form-data");
     event.preventDefault();
     const title = formData.querySelector("#floatingTitle").value;
     const desc = formData.querySelector("#floatingdesc").value || "null";
@@ -164,6 +173,7 @@ formData.addEventListener("submit", () => {
 
     const priority = formData.querySelector("#floatingPriority").value || "low";
     const notes = formData.querySelector("#floatingNotes").value || "null";
+
 
     const domAppender = appendInDom();
 
@@ -188,12 +198,83 @@ formData.addEventListener("submit", () => {
         loopData(false, activeTaskName);
         loopDataTodo();
     }
-
-
     formData.reset() //reset form after submit
     const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
     modal.hide();
-})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const formData = document.querySelector("#get-form-data");
+// formData.addEventListener("submit", () => {
+//     event.preventDefault();
+//     const title = formData.querySelector("#floatingTitle").value;
+//     const desc = formData.querySelector("#floatingdesc").value || "null";
+
+//     const dueDateValue = formData.querySelector("#due-date").value;
+//     const dueTimeValue = formData.querySelector("#due-time").value;
+//     const dueDate = dueDateValue ? dueDateValue.split("-") : null;
+//     const dueTime = dueTimeValue ? dueTimeValue.split(":") : null;
+
+//     const priority = formData.querySelector("#floatingPriority").value || "low";
+//     const notes = formData.querySelector("#floatingNotes").value || "null";
+
+//     const domAppender = appendInDom();
+
+//     const activeTaskName = getMatchedProject().matchedProject.projectName;
+//     // const getDate = calcDate() ?? "none"
+//     const data = getAllProjects() ?? [];
+//     // Find the matching project
+//     const matchedProject = data.find(dataObj => {
+//         const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
+//         console.log(`Checking project: ${formattedProjectName}`);
+//         if (activeTaskName)
+//             return formattedProjectName === activeTaskName.replace(/\s+/g, "");
+//     });
+
+//     if (matchedProject) {
+//         console.log(activeTaskName, matchedProject)
+//         console.log(title, desc, dueDate, priority, notes);
+//         const timeLeft = calcDate(dueDate, dueTime);
+//         const isComplete = false;
+//         matchedProject.todos.push({ title, desc, timeLeft, priority, notes, isComplete });
+//         setLocalData(data);
+//         loopData(false, activeTaskName);
+//         loopDataTodo();
+//     }
+
+
+//     formData.reset() //reset form after submit
+//     const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
+//     modal.hide();
+// })
 
 
 
@@ -223,7 +304,7 @@ const handleEditDelete = (event) => {
     let updatedData;
     console.log(matchedTodo, data)
     switch (event.target.id.split("-")[0]) {
-        case "edit": console.log("edit todo")
+        case "edit": handleTodoEdit();
             break;
         case "delete": updatedData = handleTodoDelete(matchedTodo, matchedProject, data);
             break;
@@ -253,12 +334,15 @@ const handleTodoDelete = (matchedTodo, matchedProject, data) => {
     return data
 }
 const handleTodoEdit = (data) => {
-
+    document.querySelector("button[type=submit]").textContent = "Update";
+    getFormValues();
 }
 
 
-
-
+const getFormValues = () => {
+    const formObj = document.forms['get-form-data'];
+    console.log(formObj.elements["modal-body"])
+}
 
 
 
