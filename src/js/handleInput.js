@@ -151,21 +151,24 @@ document.querySelector("#rename-list").addEventListener("click", () => {
 });
 
 document.querySelector(".add-task-container").addEventListener("click", () => {
+    const submitBtn = document.querySelector("button[type=submit]");
+    submitBtn.textContent = "Create";
+    submitBtn.id = "Create"
 
     const formData = document.querySelector("#get-form-data");
     formData.addEventListener("submit", handleFormSubmit);
-   
+
 })
 
 
 
 
-const handleFormSubmit = () => {
+const handleFormSubmit = (event) => {
     const formData = document.querySelector("#get-form-data");
     event.preventDefault();
     const title = formData.querySelector("#floatingTitle").value;
     const desc = formData.querySelector("#floatingdesc").value || "null";
-
+    const submitBtn = formData.querySelector("button[type=submit]");
     const dueDateValue = formData.querySelector("#due-date").value;
     const dueTimeValue = formData.querySelector("#due-time").value;
     const dueDate = dueDateValue ? dueDateValue.split("-") : null;
@@ -174,26 +177,25 @@ const handleFormSubmit = () => {
     const priority = formData.querySelector("#floatingPriority").value || "low";
     const notes = formData.querySelector("#floatingNotes").value || "null";
 
+    const { matchedProject, data } = getMatchedProject();
+    const activeTaskName = matchedProject.projectName;
 
-    const domAppender = appendInDom();
-
-    const activeTaskName = getMatchedProject().matchedProject.projectName;
-    // const getDate = calcDate() ?? "none"
-    const data = getAllProjects() ?? [];
-    // Find the matching project
-    const matchedProject = data.find(dataObj => {
-        const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
-        console.log(`Checking project: ${formattedProjectName}`);
-        if (activeTaskName)
-            return formattedProjectName === activeTaskName.replace(/\s+/g, "");
-    });
-
+    // Get the todo identifier from the hidden input field
+    const todoId = formData.querySelector("#todo-id").value;
     if (matchedProject) {
-        console.log(activeTaskName, matchedProject)
-        console.log(title, desc, dueDate, priority, notes);
         const timeLeft = calcDate(dueDate, dueTime);
         const isComplete = false;
-        matchedProject.todos.push({ title, desc, timeLeft, priority, notes, isComplete });
+        if (submitBtn.id === "Create") {
+            matchedProject.todos.push({ title, desc, timeLeft, priority, notes, isComplete });
+
+        }
+        else if (submitBtn.id === "Update") {
+            const todoIndex = matchedProject.todos.findIndex(todo => todo.title === todoId);
+            if (todoIndex !== -1) {
+                // Update the existing todo's details
+                matchedProject.todos[todoIndex] = { title, desc, timeLeft, priority, notes, isComplete };
+            }
+        }
         setLocalData(data);
         loopData(false, activeTaskName);
         loopDataTodo();
@@ -202,81 +204,6 @@ const handleFormSubmit = () => {
     const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
     modal.hide();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const formData = document.querySelector("#get-form-data");
-// formData.addEventListener("submit", () => {
-//     event.preventDefault();
-//     const title = formData.querySelector("#floatingTitle").value;
-//     const desc = formData.querySelector("#floatingdesc").value || "null";
-
-//     const dueDateValue = formData.querySelector("#due-date").value;
-//     const dueTimeValue = formData.querySelector("#due-time").value;
-//     const dueDate = dueDateValue ? dueDateValue.split("-") : null;
-//     const dueTime = dueTimeValue ? dueTimeValue.split(":") : null;
-
-//     const priority = formData.querySelector("#floatingPriority").value || "low";
-//     const notes = formData.querySelector("#floatingNotes").value || "null";
-
-//     const domAppender = appendInDom();
-
-//     const activeTaskName = getMatchedProject().matchedProject.projectName;
-//     // const getDate = calcDate() ?? "none"
-//     const data = getAllProjects() ?? [];
-//     // Find the matching project
-//     const matchedProject = data.find(dataObj => {
-//         const formattedProjectName = dataObj.projectName.split(" ").join("");  // Format the project name
-//         console.log(`Checking project: ${formattedProjectName}`);
-//         if (activeTaskName)
-//             return formattedProjectName === activeTaskName.replace(/\s+/g, "");
-//     });
-
-//     if (matchedProject) {
-//         console.log(activeTaskName, matchedProject)
-//         console.log(title, desc, dueDate, priority, notes);
-//         const timeLeft = calcDate(dueDate, dueTime);
-//         const isComplete = false;
-//         matchedProject.todos.push({ title, desc, timeLeft, priority, notes, isComplete });
-//         setLocalData(data);
-//         loopData(false, activeTaskName);
-//         loopDataTodo();
-//     }
-
-
-//     formData.reset() //reset form after submit
-//     const modal = bootstrap.Modal.getInstance(document.getElementById('add-todo'));
-//     modal.hide();
-// })
-
-
 
 
 const handleTick = (event) => {
@@ -304,7 +231,7 @@ const handleEditDelete = (event) => {
     let updatedData;
     console.log(matchedTodo, data)
     switch (event.target.id.split("-")[0]) {
-        case "edit": handleTodoEdit();
+        case "edit": handleTodoEdit(matchedTodo);
             break;
         case "delete": updatedData = handleTodoDelete(matchedTodo, matchedProject, data);
             break;
@@ -320,33 +247,44 @@ const handleEditDelete = (event) => {
     }
 }
 
-
+// Delete function: filter out the selected todo
 const handleTodoDelete = (matchedTodo, matchedProject, data) => {
+    const updatedTodos = matchedProject.todos.filter(todo => todo.title !== matchedTodo.title);
 
-    const updatedTodo = matchedProject.todos.filter(todo => {
-        return todo.title !== matchedTodo.title;
-    })
-    for (let index = 0; index < data.length; index++) {
-        const element = data[index];
-        if (element.projectName === matchedProject.projectName)
-            data[index].todos = updatedTodo
-    }
-    return data
+    // Update data for the matched project
+    const updatedData = data.map(project => {
+        if (project.projectName === matchedProject.projectName) {
+            return { ...project, todos: updatedTodos };
+        }
+        return project;
+    });
+
+    return updatedData;  // Return the modified data
+};
+
+
+const handleTodoEdit = (matchedTodo) => {
+    const editSubmit = document.querySelector("button[type=submit]");
+    editSubmit.textContent = "Update";
+    editSubmit.id = "Update"
+    populateForm(matchedTodo);
+    document.querySelector("#todo-id").value = matchedTodo.title;
+    const formData = document.querySelector("#get-form-data");
+    formData.addEventListener("submit", handleFormSubmit);
+
 }
-const handleTodoEdit = (data) => {
-    document.querySelector("button[type=submit]").textContent = "Update";
-    getFormValues();
-}
 
 
-const getFormValues = () => {
+
+const populateForm = (matchedTodo) => {
+    console.log("matched :", matchedTodo)
+    const { title, desc, timeLeft, priority, notes, isComplete } = matchedTodo;
     const formObj = document.forms['get-form-data'];
-    console.log(formObj.elements["modal-body"])
+    formObj.querySelector("#floatingTitle").value = title;
+    formObj.querySelector("#floatingdesc").value = desc
+    formObj.querySelector("#floatingPriority").value = priority
+    formObj.querySelector("#floatingNotes").value = notes
 }
-
-
-
-
 
 
 
